@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Professional Receipt Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <section class="input-section">
+        <h2>PG Rent Payment Receipt</h2>
+        <div class="form-grid">
+            <div class="field-group">
+                <label>Header Details</label>
+                <input type="text" oninput="this.value = this.value.toUpperCase();"  id="inTitle" placeholder="Company/Organization Title">
+                <input type="text" oninput="this.value = this.value.toUpperCase();" id="inSubTitle" placeholder="Sub-heading / Tagline">
+                <input type="text" oninput="this.value = this.value.toUpperCase();" id="inAddress" placeholder="Full Address">
+                <input type="text" oninput="this.value = this.value.toUpperCase();" id="inContact" placeholder="Contact / Email">
+            </div>
+
+            <div class="field-group">
+                <label>Transaction Details</label>
+                <!-- <input type="text" id="inSrNo" placeholder="Serial Number (SR NO)"> -->
+                <input type="text" oninput="this.value = this.value.toUpperCase();" id="inReceiver" placeholder="Received From (Name)">
+                <input type="number" id="inAmount" placeholder="Amount (INR)">
+                <input type="text" oninput="this.value = this.value.toUpperCase();" id="inPaymentFor" placeholder="Payment For (Description)">
+            </div>
+
+            <div class="field-group">
+                <label>Period & Authority</label>
+                <div class="date-row">
+                    <input type="date" id="inFromDate">
+                    <input type="date" id="inToDate">
+                </div>
+                <input type="text" id="inReceivedBy" placeholder="Authorized Signatory Name">
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button onclick="printPDF()" class="print-btn">Print Receipt</button>
+            <button onclick="downloadPDF()" class="download-btn">Save as PDF</button>
+        </div>
+    </section>
+
+    <section class="preview-section">
+    <div class="zoom-controls">
+        <button class="zoom-btn" onclick="adjustZoom(-0.1)">−</button>
+        <button class="zoom-btn" onclick="adjustZoom(0.1)">+</button>
+        <button class="zoom-btn" onclick="resetZoom()">100%</button>
+    </div>
+    <div id="pdf-a4" class="a4-page">
+        <div class="stellar-header">
+            <h1 id="outTitle"></h1> 
+            <h2 id="outSubTitle"></h2> 
+            <p id="outAddress"></p> 
+            <p id="outContact"></p> 
+            <div class="doc-badge" id="outDocType">PAYING GUEST RENT PAYMENT RECEIPT</div> 
+        </div>
+
+        <table class="stellar-table">
+            <tr>
+                <td style="width: 25%;" class="label">SR. NO.</td> 
+                <td style="width: 5%;" class="colon">:</td>
+                <td style="width: 25%;"class="val-short" id="outSrNo">AUTO GENERATED</td>
+                <td style="width: 10%;" class="label"></td> 
+                <td style="width: 10%;"  class="label" style="text-align: right; padding-right: 10px;">DATE</td>
+                <td style="width: 5%;" class="colon">:</td>
+                <td style="width: 15%;" class="val-short" id="outDate"></td>
+            </tr>
+            <tr>
+                <td class="label">RECEIVED FROM</td>
+                <td class="colon">:</td>
+                <td colspan="4" class="val" id="outReceiver"></td>
+            </tr>
+            <tr>
+                <td class="label">AMOUNT</td>
+                <td class="colon">:</td>
+                <td colspan="4" class="val" id="outAmount"></td>
+            </tr>
+            <tr>
+                <td class="label">FOR PAYMENT OF</td>
+                <td class="colon">:</td>
+                <td colspan="4" class="val" id="outPaymentFor"></td>
+            </tr>
+            <tr>
+                <td style="width: 25%;" class="label">FROM</td>
+                <td style="width: 5%;" class="colon">:</td>
+                <td style="width: 25%;" class="val-short" id="outFrom"></td>                
+                <td style="width: 10%;" class="label"></td> 
+                <td style="width: 10%;" class="label" style="text-align: right; padding-right: 10px;">TO</td>
+                <td style="width: 5%;" class="colon">:</td>
+                <td style="width: 15%;" class="val-short" id="outTo"></td>
+            </tr>
+            <tr>
+                <td class="label">RECEIVED BY</td>
+                <td class="colon">:</td>
+                <td colspan="4" class="val" id="outReceivedBy"></td>
+            </tr>
+        </table>
+        <div class="stellar-footer">
+            <p id="outSignName" style="font-weight: bold; margin-bottom: 0;"></p> <p class="sig-label">(SIGNED)</p> 
+        </div>        
+        <div class="doc-badge-bottom">* END *</div>
+    </div>
+</section>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
