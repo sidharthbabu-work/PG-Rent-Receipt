@@ -187,7 +187,6 @@ function generateDocDefinition(data) {
                 bold: true,
                 alignment: 'center',
                 margin: [0, 0, 0, 0],
-                font: 'Roboto' // PDFMake default font, looks clean
             },
             subheader: {
                 fontSize: 16,
@@ -225,14 +224,21 @@ function generateDocDefinition(data) {
             }
         },
         defaultStyle: {
-            fontSize: 11
+            fontSize: 11,
+            font: 'Times'
         }
     };
 }
 
 function updatePreview() {
     const data = getData();
-
+    pdfMake.fonts = {
+        Times: {
+            normal: 'times.otf',
+            bold: 'timesbd.ttf',
+            italics: 'timesi.ttf'
+        }
+    };
     const docDefinition = generateDocDefinition(data);
 
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
