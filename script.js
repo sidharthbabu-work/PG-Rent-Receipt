@@ -61,7 +61,7 @@ function getSrNo(increment = false) {
 function generateDocDefinition(data) {
     return {
         pageSize: 'A4',
-        pageMargins: [40, 40, 40, 40],
+        pageMargins: [40, 20, 40, 40],
         content: [
             // Header
             { text: data.inTitle || 'COMPANY TITLE', style: 'header' },
@@ -78,11 +78,11 @@ function generateDocDefinition(data) {
                     ]
                 },
                 layout: {
-                    hLineWidth: function (i) { return (i === 0 || i === 1) ? 1.5 : 0; },
+                    hLineWidth: function (i) { return (i === 0 || i === 1) ? 1 : 0; },
                     vLineWidth: function (i) { return 0; },
                     hLineStyle: function (i) { return { dash: { length: 2 } }; }
                 },
-                margin: [0, 10, 0, 20]
+                margin: [-15, 0, -15, 10]
             },
 
             // Main Table
@@ -151,15 +151,15 @@ function generateDocDefinition(data) {
 
             // Footer
             {
-                margin: [0, 60, 20, 0],
+                margin: [0, 20, 15, 0],
                 alignment: 'right',
                 columns: [
                     { width: '*', text: '' },
                     {
                         width: 'auto',
                         stack: [
-                            { text: data.inReceivedBy || '', bold: true, margin: [0, 0, 0, 5] },
-                            { text: '(SIGNED)', italics: true, fontSize: 10, decoration: 'overline' }
+                            { text: data.inReceivedBy || '', bold: true, margin: [0, 0, 0, 2] },
+                            { text: '(SIGNED)', italics: true, fontSize: 10 }
                         ]
                     }
                 ]
@@ -167,7 +167,7 @@ function generateDocDefinition(data) {
 
             // Bottom Badge
             {
-                margin: [0, 40, 0, 0],
+                margin: [-15, 20, -15, 0],
                 table: {
                     widths: ['*'],
                     body: [
@@ -186,7 +186,7 @@ function generateDocDefinition(data) {
                 fontSize: 24,
                 bold: true,
                 alignment: 'center',
-                margin: [0, 0, 0, 5],
+                margin: [0, 0, 0, 0],
                 font: 'Roboto' // PDFMake default font, looks clean
             },
             subheader: {
@@ -201,7 +201,7 @@ function generateDocDefinition(data) {
                 margin: [0, 0, 0, 2]
             },
             docTitle: {
-                fontSize: 14,
+                fontSize: 12,
                 bold: true,
                 alignment: 'center',
                 margin: [5, 5, 5, 5]
@@ -221,9 +221,7 @@ function generateDocDefinition(data) {
                 alignment: 'center'
             },
             value: {
-                fontSize: 11,
-                decoration: 'underline',
-                decorationStyle: 'dotted'
+                fontSize: 11
             }
         },
         defaultStyle: {
@@ -234,6 +232,7 @@ function generateDocDefinition(data) {
 
 function updatePreview() {
     const data = getData();
+
     const docDefinition = generateDocDefinition(data);
 
     const pdfDocGenerator = pdfMake.createPdf(docDefinition);
