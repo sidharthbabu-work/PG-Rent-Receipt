@@ -60,6 +60,12 @@ function getSrNo(increment = false) {
 
 function generateDocDefinition(data) {
     return {
+        info: {
+            title: getPdfFileName(data),
+            author: 'ReceiptGen',
+            subject: 'Receipt',
+            keywords: 'receipt, invoice, payment'
+        },
         pageSize: 'A4',
         pageMargins: [40, 20, 40, 40],
         content: [
@@ -230,8 +236,16 @@ function generateDocDefinition(data) {
     };
 }
 
+function getPdfFileName(data) {
+    let receivedFrom = data.inReceiver || "UNKNOWN";
+    receivedFrom = receivedFrom.replace(/[^a-z0-9]/gi, "_");
+
+    return `Receipt_${receivedFrom}_${data.srNo}.pdf`;
+}
+
 function updatePreview() {
     const data = getData();
+    data.srNo = getSrNo(true);
     pdfMake.fonts = {
         Times: {
             normal: 'times.otf',
@@ -249,27 +263,22 @@ function updatePreview() {
 }
 
 function downloadPDF() {
-    // Increment Sr No only on explicit download/print
-    getSrNo(true);
     const data = getData();
 
     // Clean filename
-    let receivedFrom = data.inReceiver || "UNKNOWN";
-    receivedFrom = receivedFrom.replace(/[^a-z0-9]/gi, "_");
+    const fileName = getPdfFileName(data);
 
     // Regenerate to show updated Sr No
     const docDefinition = generateDocDefinition(data);
 
     // Download
-    pdfMake.createPdf(docDefinition).download(`Receipt_${receivedFrom}_${data.srNo}.pdf`);
+    pdfMake.createPdf(docDefinition).download(fileName);
 
     // Update preview to show the new number
     updatePreview();
 }
 
 function printPDF() {
-    // Increment Sr No
-    getSrNo(true);
     const data = getData();
     const docDefinition = generateDocDefinition(data);
 
