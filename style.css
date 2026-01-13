@@ -198,3 +198,39 @@ iframe#pdf-preview {
     border: none;
     display: block;
 }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .app-layout {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+        /* Allow window scroll */
+    }
+
+    .editor-panel {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        flex-shrink: 0;
+        max-height: 60vh;
+        /* Limit form height so preview is visible? Or just let it flow? */
+        /* Actually, for a receipt generator, usually you want to see the form. 
+           Let's just let it flow naturally. */
+        max-height: none;
+    }
+
+    .scroll-content {
+        overflow-y: visible;
+        /* Let the window scroll */
+    }
+
+    .preview-panel {
+        height: 80vh;
+        /* Fixed height for preview on mobile */
+        width: 100%;
+        flex: none;
+    }
+}
